@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+
+# 数据集与权重
+data/
+datasets/
+*.pth
+*.tar
+*.zip
+*.gz
+*.rar
+*.7z
+
+# 输出目录
+inpainting_outputs/
+# celeba_inpaint_results/
+# cifar_inpaint_results/
+main_outputs/
+outputs/
+results/
+checkpoints/
+
+# 模型和权重文件
+*.pkl
+*.pt
+*.ckpt
+*.h5
+*.pb
+*.onnx
+*.tflite
+
+# 大文件和数据
+*.jpg
+*.jpeg
+*.png
+*.bmp
+*.tiff
+*.gif
+*.mp4
+*.avi
+*.mov
+*.csv
+*.tsv
+*.parquet
+*.hdf5
+*.npz
+*.npy
+
+# 日志与中间文件
+*.log
+*.tmp
+*.cache
+logs/
+wandb/
+tensorboard/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# 环境变量
+.env
+.env.local
