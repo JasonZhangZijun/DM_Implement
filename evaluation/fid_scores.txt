@@ -1,0 +1,7 @@
+FID Scores:
+==================================================
+DDPM CIFAR-10: 0.00
+DDIM CIFAR-10: 0.00
+Conditional DDPM CIFAR-10: 0.00
+DDPM CelebA: 0.00
+DDIM CelebA: 0.00
