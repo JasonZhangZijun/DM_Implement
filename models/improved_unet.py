@@ -46,18 +46,18 @@ class AttentionBlock(nn.Module):
         v = self.v(h)
         
         # 计算注意力
-        b, c, h, w = q.shape
-        q = q.reshape(b, c, h * w).permute(0, 2, 1)  # [b, hw, c]
-        k = k.reshape(b, c, h * w)  # [b, c, hw]
-        v = v.reshape(b, c, h * w).permute(0, 2, 1)  # [b, hw, c]
+        b, c, height, width = q.shape
+        q = q.reshape(b, c, height * width).permute(0, 2, 1)  # [b, hw, c]
+        k = k.reshape(b, c, height * width)  # [b, c, hw]
+        v = v.reshape(b, c, height * width).permute(0, 2, 1)  # [b, hw, c]
         
         attn = torch.bmm(q, k) * (int(c) ** (-0.5))  # [b, hw, hw]
         attn = F.softmax(attn, dim=2)
         
-        h = torch.bmm(attn, v)  # [b, hw, c]
-        h = h.permute(0, 2, 1).reshape(b, c, h, w)
+        out = torch.bmm(attn, v)  # [b, hw, c]
+        out = out.permute(0, 2, 1).reshape(b, c, height, width)
         
-        return x + self.proj_out(h)
+        return x + self.proj_out(out)
 
 class ResBlock(nn.Module):
     """残差块"""

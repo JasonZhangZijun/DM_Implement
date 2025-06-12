@@ -84,11 +84,11 @@ class DDPM_Model(nn.Module):
         return x
     
     @torch.no_grad()
-    def sample(self, num_samples):
-        """生成样本的便捷方法"""
-        # shape = (num_samples, 3, 32, 32)  # CIFAR-10图像尺寸
-        # celeba 图像尺寸
-        shape = (num_samples, 3, 218, 178)
+    def sample(self, num_samples, dataset_name):
+        if dataset_name == "celeba":
+            shape = (num_samples, 3, 64, 64)
+        elif dataset_name == "cifar":
+            shape = (num_samples, 3, 32, 32)
         return self.p_sample_loop(shape)
 
     def evaluate(self, num_samples=1000):

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """CIFAR-10 批量 Inpainting 测试脚本
+# [RESULT] 平均 PSNR: 18.95 dB, 平均 SSIM: 0.8336 center
+# [RESULT] 平均 PSNR: 23.77 dB, 平均 SSIM: 0.8771 random
+# [RESULT] 平均 PSNR: 11.86 dB, 平均 SSIM: 0.5728 left_half
 
 在最少改动的基础上，使用现有 `InpaintDDPM` 模型对 CIFAR-10 *测试集* 进行图像修复，
 并统计整体 PSNR / SSIM。
-
+["center", "left_half", "top_half", "random", "stripes"]
 运行方式 (示例)：
     python inpaint_cifar10.py --model_path diffusion_model.pth \
                               --mask_type center \
@@ -103,7 +106,7 @@ def main() -> None:
             # 保存前 8 张示例（仅第一次迭代）
             if batch_idx == 0:
                 for i in range(min(8, batch_size)):
-                    save_path = os.path.join(args.output, f"sample_{i}.png")
+                    save_path = os.path.join(args.output, f"sample_{i}_{args.mask_type}.png")
                     model.save_inpaint_results(
                         imgs[i:i+1].cpu(),
                         imgs_masked[i:i+1].cpu(),

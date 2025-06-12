@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """CelebA-HQ 批量 Inpainting 测试脚本
-
+# [RESULT] 平均 PSNR: 22.45 dB, 平均 SSIM: 0.8768 center
+# [RESULT] 平均 PSNR: 12.51 dB, 平均 SSIM: 0.5965 left_half
+# [RESULT] 平均 PSNR: 30.50 dB, 平均 SSIM: 0.9541 random
 用法示例：
     python inpaint_celeba.py --model_path diffusion_model_celeba.pth \
                              --mask_type center --mask_size 0.4 \
@@ -94,7 +96,7 @@ def main() -> None:
 
             if batch_idx == 0:
                 for i in range(min(8, bs)):
-                    save_path = os.path.join(args.output, f"sample_{i}.png")
+                    save_path = os.path.join(args.output, f"sample_{i}_{args.mask_type}.png")
                     model.save_inpaint_results(imgs[i:i+1].cpu(), imgs_masked[i:i+1].cpu(), recon[i:i+1].cpu(), mask[i:i+1].cpu(), save_path)
 
     print(f"[RESULT] 平均 PSNR: {total_psnr / count:.2f} dB, 平均 SSIM: {total_ssim / count:.4f}")

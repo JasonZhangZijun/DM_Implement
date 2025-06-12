@@ -17,10 +17,10 @@ import json
 
 from config import get_config
 from models.ddpm import DDPM_Model
-from models.conditional_ddpm import ConditionalDDPM
+from models.conditional_ddpm import ConditionalDDPM_Model
 from inpaint_ddpm import InpaintDDPM
 from utils.fid import evaluate_generated_images
-from utils.losses import calculate_psnr, calculate_ssim
+from utils.losses import psnr, ssim
 
 class ExperimentLogger:
     """实验日志记录器"""
@@ -179,8 +179,8 @@ def evaluate_inpainting(model, test_loader, config, logger, epoch):
                         original_patch = images[j][mask_region].cpu().numpy()
                         restored_patch = restored[0][j][mask_region].cpu().numpy()
                         
-                        psnr = calculate_psnr(original_patch, restored_patch)
-                        ssim = calculate_ssim(
+                        psnr = psnr(original_patch, restored_patch)
+                        ssim = ssim(
                             original_patch.reshape(-1), 
                             restored_patch.reshape(-1)
                         )
@@ -256,7 +256,7 @@ def train_model(task, config_name=None):
             output_dir=config.output_dir
         )
     elif task == "conditional":
-        model = ConditionalDDPM(
+        model = ConditionalDDPM_Model(
             train_loader,
             T=config.T,
             num_classes=config.num_classes,
