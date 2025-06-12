@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 # diffusion model
 from models.unet import UNet
 import torch
@@ -33,15 +37,15 @@ if __name__ == "__main__":
     diffusion_model = DDPM_Model(dataloader)
     diffusion_model.train_model(num_epochs=100)
     # 保存模型状态字典而不是整个模型
-    torch.save(diffusion_model.state_dict(), "diffusion_model_cifar.pth")
+    torch.save(diffusion_model.state_dict(), "../../diffusion_model_cifar.pth")
     
     # 创建新模型并加载状态字典  
     diffusion_model = DDPM_Model(dataloader)
-    diffusion_model.load_state_dict(torch.load("diffusion_model_cifar.pth"))
+    diffusion_model.load_state_dict(torch.load("../../diffusion_model_cifar.pth"))
     
     # 生成一些样本并保存
     x_0 = diffusion_model.sample(10, "cifar")
-    torchvision.utils.save_image(x_0, "sample_cifar.png")
+    torchvision.utils.save_image(x_0, "../../sample_cifar.png")
     
     # 评估模型
     print("开始评估模型...")

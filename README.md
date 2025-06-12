@@ -18,26 +18,32 @@ diffusion/
 │   ├── fid.py                 # FID evaluation
 │   ├── losses.py              # Loss functions
 │   └── masks.py               # Mask generation
+├── scripts/                    # Executable scripts
+│   ├── train/                 # Training scripts
+│   ├── test/                  # Testing scripts
+│   ├── inpaint/               # Inpainting scripts
+│   ├── evaluate_models.py     # Model evaluation
+│   └── super_resolution.py    # Super-resolution script
 ├── config.py                  # Configuration file
-└── Main running scripts...
+└── Model weight files...
 ```
 
 ## 🚀 Main Executable Files
 
 ### 1. Unified Training and Evaluation Script ⭐ **Recommended**
 
-**File:** `train_and_evaluate.py`  
+**File:** `scripts/train/train_and_evaluate.py`  
 **Function:** Complete training, evaluation, and sampling pipeline, supporting multiple datasets and configurations
 
 ```bash
 # Train CIFAR-10 model
-python train_and_evaluate.py --task cifar10
+python scripts/train/train_and_evaluate.py --task cifar10
 
 # Train CelebA model
-python train_and_evaluate.py --task celeba
+python scripts/train/train_and_evaluate.py --task celeba
 
 # Use custom configuration
-python train_and_evaluate.py --task cifar10 --config custom_config.yaml
+python scripts/train/train_and_evaluate.py --task cifar10 --config custom_config.yaml
 ```
 
 **Output:**
@@ -50,18 +56,18 @@ python train_and_evaluate.py --task cifar10 --config custom_config.yaml
 
 ### 2. Basic DDPM Training Scripts
 
-**File:** `train_ddpm_cifar.py`  
+**File:** `scripts/train/train_ddpm_cifar.py`  
 **Function:** Train basic DDPM model on CIFAR-10 dataset
 
 ```bash
-python train_ddpm_cifar.py
+python scripts/train/train_ddpm_cifar.py
 ```
 
-**File:** `train_ddpm_celeba.py`  
+**File:** `scripts/train/train_ddpm_celeba.py`  
 **Function:** Train basic DDPM model on CelebA dataset
 
 ```bash
-python train_ddpm_celeba.py
+python scripts/train/train_ddpm_celeba.py
 ```
 
 **Output:**
@@ -73,25 +79,25 @@ python train_ddpm_celeba.py
 
 ### 3. DDIM Model Examples
 
-**File:** `ddim_example.py`  
+**File:** `scripts/train/ddim_example.py`  
 **Function:** Train and test DDIM model, supports fast sampling
 
 ```bash
-python ddim_example.py
+python scripts/train/ddim_example.py
 ```
 
-**File:** `train_ddim_cifar.py` ⭐ **New**  
+**File:** `scripts/train/train_ddim_cifar.py` ⭐ **New**  
 **Function:** Specialized DDIM model training on CIFAR-10 dataset
 
 ```bash
-python train_ddim_cifar.py
+python scripts/train/train_ddim_cifar.py
 ```
 
-**File:** `train_ddim_celeba.py` ⭐ **New**  
+**File:** `scripts/train/train_ddim_celeba.py` ⭐ **New**  
 **Function:** Specialized DDIM model training on CelebA dataset (supports 64x64 images)
 
 ```bash
-python train_ddim_celeba.py
+python scripts/train/train_ddim_celeba.py
 ```
 
 **Output:**
@@ -105,18 +111,18 @@ python train_ddim_celeba.py
 
 ### 4. Conditional Diffusion Models
 
-**File:** `conditional_diffusion.py`  
+**File:** `scripts/train/conditional_diffusion.py`  
 **Function:** Class-label based conditional generation model
 
 ```bash
 # Train conditional model
-python conditional_diffusion.py --train --epochs 20
+python scripts/train/conditional_diffusion.py --train --epochs 20
 
 # Generate specific class images (e.g., generate 10 car images, class_id=1)
-python conditional_diffusion.py --sample --num_samples 10 --class_id 1
+python scripts/train/conditional_diffusion.py --sample --num_samples 10 --class_id 1
 
 # Train and sample simultaneously
-python conditional_diffusion.py --train --sample --epochs 10 --class_id 3
+python scripts/train/conditional_diffusion.py --train --sample --epochs 10 --class_id 3
 ```
 
 **CIFAR-10 Class Labels:**
@@ -131,43 +137,43 @@ python conditional_diffusion.py --train --sample --epochs 10 --class_id 3
 
 ### 5. Image Inpainting
 
-**File:** `main.py`  
+**File:** `scripts/inpaint/main.py`  
 **Function:** Simple image inpainting demonstration
 
 ```bash
 # Basic inpainting demo
-python main.py
+python scripts/inpaint/main.py
 
 # Specify pretrained model
-python main.py --model_path diffusion_model_cifar.pth
+python scripts/inpaint/main.py --model_path diffusion_model_cifar.pth
 
 # Specify input image
-python main.py --image_path your_image.jpg --output_dir results
+python scripts/inpaint/main.py --image_path your_image.jpg --output_dir results
 ```
 
-**File:** `inpaint_cifar10.py`  
+**File:** `scripts/inpaint/inpaint_cifar10.py`  
 **Function:** Image inpainting on CIFAR-10 dataset
 
 ```bash
-python inpaint_cifar10.py
+python scripts/inpaint/inpaint_cifar10.py
 ```
 
-**File:** `inpaint_celeba.py`  
+**File:** `scripts/inpaint/inpaint_celeba.py`  
 **Function:** Face inpainting on CelebA dataset
 
 ```bash
-python inpaint_celeba.py
+python scripts/inpaint/inpaint_celeba.py
 ```
 
-**File:** `inpainting_usage.py`  
+**File:** `scripts/inpaint/inpainting_usage.py`  
 **Function:** Complete image inpainting tool, supporting various mask types
 
 ```bash
 # View usage instructions
-python inpainting_usage.py --help
+python scripts/inpaint/inpainting_usage.py --help
 
 # Basic usage
-python inpainting_usage.py --input_dir ./images --output_dir ./results
+python scripts/inpaint/inpainting_usage.py --input_dir ./images --output_dir ./results
 ```
 
 **Output:**
@@ -176,34 +182,55 @@ python inpainting_usage.py --input_dir ./images --output_dir ./results
 
 ---
 
-### 6. DDIM Testing Scripts
+### 6. Testing Scripts
 
-**File:** `test_ddim.py`  
+**File:** `scripts/test/test_ddim.py`  
 **Function:** Test different sampling strategies for DDIM model
 
 ```bash
-python test_ddim.py
+python scripts/test/test_ddim.py
 ```
 
-**File:** `test_ddpm_cifar.py` ⭐ **New**  
+**File:** `scripts/test/test_ddpm_cifar.py` ⭐ **New**  
 **Function:** Test pretrained DDPM CIFAR-10 model
 
 ```bash
-python test_ddpm_cifar.py
+python scripts/test/test_ddpm_cifar.py
 ```
 
-**File:** `compare_ddim_ddpm.py` ⭐ **New**  
+**File:** `scripts/test/test_ddpm_celeba.py` ⭐ **New**  
+**Function:** Test pretrained DDPM CelebA model
+
+```bash
+python scripts/test/test_ddpm_celeba.py
+```
+
+**File:** `scripts/test/test_ddim_cifar.py` ⭐ **New**  
+**Function:** Test pretrained DDIM CIFAR-10 model
+
+```bash
+python scripts/test/test_ddim_cifar.py
+```
+
+**File:** `scripts/test/test_ddim_celeba.py` ⭐ **New**  
+**Function:** Test pretrained DDIM CelebA model
+
+```bash
+python scripts/test/test_ddim_celeba.py
+```
+
+**File:** `scripts/test/compare_ddim_ddpm.py` ⭐ **New**  
 **Function:** Complete comparison of DDIM and DDPM on both datasets
 
 ```bash
-python compare_ddim_ddpm.py
+python scripts/test/compare_ddim_ddpm.py
 ```
 
-**File:** `quick_comparison.py` ⭐ **New Recommended**  
+**File:** `scripts/test/quick_comparison.py` ⭐ **New Recommended**  
 **Function:** Quick comparison test, runnable even without pretrained models
 
 ```bash
-python quick_comparison.py
+python scripts/test/quick_comparison.py
 ```
 
 **Output:**
@@ -213,6 +240,24 @@ python quick_comparison.py
 - `ddim_ddpm_quick_comparison.png` (quick comparison image)
 - `ddpm_cifar_test_samples.png` (DDPM CIFAR-10 test samples)
 - Detailed performance analysis report
+
+---
+
+### 7. Evaluation and Other Scripts
+
+**File:** `scripts/evaluate_models.py`  
+**Function:** Comprehensive model evaluation with FID scores
+
+```bash
+python scripts/evaluate_models.py
+```
+
+**File:** `scripts/super_resolution.py`  
+**Function:** Super-resolution diffusion model
+
+```bash
+python scripts/super_resolution.py
+```
 
 ---
 
@@ -259,7 +304,7 @@ This section details the core modules in the `models/` and `utils/` directories,
   - **Function**: U-Net for use with `ConditionalDDPM_Model`.
   - **Architecture**: Adds label embedding module to standard U-Net. Converts class labels to vectors and fuses with time embedding, injecting into network's deepest layer to guide generation process.
 
-- **`super_resolution.py`**:
+- **`super_resolution.py`** (moved to `scripts/`):
   - **Function**: Implements diffusion model for image super-resolution tasks.
   - **Core**: Uses low-resolution image as condition, combined with noise input, to generate corresponding high-resolution image.
 
@@ -287,11 +332,14 @@ This section details the core modules in the `models/` and `utils/` directories,
 
 ## 📊 Model Weight Files
 
-The project includes the following pretrained models:
+The project includes the following pretrained models (stored in project root):
 - `diffusion_model.pth`: General DDPM model
 - `diffusion_model_cifar.pth`: CIFAR-10 specific model
 - `diffusion_model_celeba.pth`: CelebA specific model
-- `ddim_model.pth`: DDIM model weights
+- `ddim_model_cifar.pth`: DDIM CIFAR-10 model weights
+- `ddim_model_celeba.pth`: DDIM CelebA model weights
+- `conditional_diffusion_cifar.pth`: Conditional DDPM CIFAR-10 model
+- `conditional_diffusion_celeba.pth`: Conditional DDPM CelebA model
 
 ---
 
@@ -299,27 +347,32 @@ The project includes the following pretrained models:
 
 1. **Simplest Usage** (Recommended for beginners):
    ```bash
-   python train_and_evaluate.py --task cifar10
+   python scripts/train/train_and_evaluate.py --task cifar10
    ```
 
 2. **Conditional Generation** (Generate specific class images):
    ```bash
-   python conditional_diffusion.py --train --sample --class_id 2
+   python scripts/train/conditional_diffusion.py --train --sample --class_id 2
    ```
 
 3. **Image Inpainting**:
    ```bash
-   python main.py --model_path diffusion_model_cifar.pth
+   python scripts/inpaint/main.py --model_path diffusion_model_cifar.pth
    ```
 
 4. **Fast Sampling** (DDIM):
    ```bash
-   python ddim_example.py
+   python scripts/train/ddim_example.py
    ```
 
 5. **Model Comparison** ⭐ **New Recommended**:
    ```bash
-   python quick_comparison.py
+   python scripts/test/quick_comparison.py
+   ```
+
+6. **Model Evaluation**:
+   ```bash
+   python scripts/evaluate_models.py
    ```
 
 ---
@@ -348,10 +401,11 @@ pip install kagglehub  # for dataset download
 
 ## 💡 Usage Tips
 
-1. **First Time Use**: Recommended to start with `train_and_evaluate.py`
-2. **Quick Test**: Use `ddim_example.py` for fast sampling experiments
+1. **First Time Use**: Recommended to start with `scripts/train/train_and_evaluate.py`
+2. **Quick Test**: Use `scripts/train/ddim_example.py` for fast sampling experiments
 3. **Specific Tasks**: Choose corresponding specialized scripts based on needs
 4. **Custom Configuration**: Modify parameters in `config.py` to suit your needs
+5. **Organized Structure**: All executable scripts are now organized in the `scripts/` directory by functionality
 
 For any questions, please check other documentation files in the project:
 - `PROJECT_SUMMARY.md`: Project summary

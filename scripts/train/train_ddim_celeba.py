@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 # DDIM 模型训练 - CelebA 数据集
 from models.unet import UNet
 import torch
@@ -49,37 +53,37 @@ if __name__ == "__main__":
     
     # 训练模型 (CelebA 通常需要更少的 epoch 因为数据集更大)
     print("正在训练模型...")
-    ddim_model.train_model(num_epochs=5, lr=1e-4, save_path="ddim_model_celeba.pth")
+    ddim_model.train_model(num_epochs=5, lr=1e-4, save_path="../../ddim_model_celeba.pth")
     
     # 保存模型状态字典
-    torch.save(ddim_model.state_dict(), "ddim_model_celeba.pth")
+    torch.save(ddim_model.state_dict(), "../../ddim_model_celeba.pth")
     print("模型已保存为: ddim_model_celeba.pth")
     
     # 创建新模型并加载状态字典
     ddim_model_loaded = DDIM_Model_CelebA(dataloader, T=1000, device=device)
-    ddim_model_loaded.load_state_dict(torch.load("ddim_model_celeba.pth"))
+    ddim_model_loaded.load_state_dict(torch.load("../../ddim_model_celeba.pth"))
     
     print("开始生成人脸样本...")
     
     # 使用标准 DDIM 采样生成样本 (50步)
     print("生成标准 DDIM 人脸样本 (50步)...")
     x_standard = ddim_model_loaded.sample(16, ddim_steps=50, eta=0.0)
-    torchvision.utils.save_image(x_standard, "ddim_celeba_standard.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_standard, "../../ddim_celeba_standard.png", normalize=True, nrow=4)
     
     # 使用快速 DDIM 采样生成样本 (10步)
     print("生成快速 DDIM 人脸样本 (10步)...")
     x_fast = ddim_model_loaded.fast_sample(16, ddim_steps=10, eta=0.0)
-    torchvision.utils.save_image(x_fast, "ddim_celeba_fast.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_fast, "../../ddim_celeba_fast.png", normalize=True, nrow=4)
     
     # 使用随机性采样 (eta > 0)
     print("生成随机性 DDIM 人脸样本...")
     x_stochastic = ddim_model_loaded.sample(16, ddim_steps=25, eta=0.5)
-    torchvision.utils.save_image(x_stochastic, "ddim_celeba_stochastic.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_stochastic, "../../ddim_celeba_stochastic.png", normalize=True, nrow=4)
     
     # 生成更多样本用于展示
     print("生成大批量人脸样本...")
     x_batch = ddim_model_loaded.sample(64, ddim_steps=30, eta=0.2)
-    torchvision.utils.save_image(x_batch, "ddim_celeba_batch.png", normalize=True, nrow=8)
+    torchvision.utils.save_image(x_batch, "../../ddim_celeba_batch.png", normalize=True, nrow=8)
     
     # 评估模型
     print("开始评估 DDIM 模型...")

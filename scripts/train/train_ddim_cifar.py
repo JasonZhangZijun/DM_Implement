@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 # DDIM 模型训练 - CIFAR-10 数据集
 from models.unet import UNet
 import torch
@@ -30,32 +34,32 @@ if __name__ == "__main__":
     
     # 训练模型
     print("正在训练模型...")
-    ddim_model.train_model(num_epochs=50, lr=1e-4, save_path="ddim_model_cifar.pth")
+    ddim_model.train_model(num_epochs=50, lr=1e-4, save_path="../../ddim_model_cifar.pth")
     
     # 保存模型状态字典
-    torch.save(ddim_model.state_dict(), "ddim_model_cifar.pth")
+    torch.save(ddim_model.state_dict(), "../../ddim_model_cifar.pth")
     print("模型已保存为: ddim_model_cifar.pth")
     
     # # 创建新模型并加载状态字典
     ddim_model_loaded = DDIM_Model(dataloader, T=1000, device=device)
-    ddim_model_loaded.load_state_dict(torch.load("ddim_model_cifar.pth"))
+    ddim_model_loaded.load_state_dict(torch.load("../../ddim_model_cifar.pth"))
     
     print("开始生成样本...")
     
     # 使用标准 DDIM 采样生成样本 (50步)
     print("生成标准 DDIM 样本 (50步)...")
     x_standard = ddim_model_loaded.sample(10, ddim_steps=200, eta=0.0)
-    torchvision.utils.save_image(x_standard, "ddim_cifar_standard.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_standard, "../../ddim_cifar_standard.png", normalize=True, nrow=4)
     
     # 使用快速 DDIM 采样生成样本 (10步)
     print("生成快速 DDIM 样本 (10步)...")
     x_fast = ddim_model_loaded.fast_sample(10, ddim_steps=500, eta=0.0)
-    torchvision.utils.save_image(x_fast, "ddim_cifar_fast.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_fast, "../../ddim_cifar_fast.png", normalize=True, nrow=4)
     
     # 使用随机性采样 (eta > 0)
     print("生成随机性 DDIM 样本...")
     x_stochastic = ddim_model_loaded.sample(10, ddim_steps=1000, eta=0.5)
-    torchvision.utils.save_image(x_stochastic, "ddim_cifar_stochastic.png", normalize=True, nrow=4)
+    torchvision.utils.save_image(x_stochastic, "../../ddim_cifar_stochastic.png", normalize=True, nrow=4)
     
     # 评估模型
     print("开始评估 DDIM 模型...")

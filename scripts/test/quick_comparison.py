@@ -5,12 +5,16 @@ DDIM vs DDPM Quick Comparison - 简化版本
 对比 DDIM 和 DDPM 的采样速度和质量
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import torch
 import torchvision.transforms as T
 from torchvision.datasets import CIFAR10, ImageFolder
 import matplotlib.pyplot as plt
 import time
-import os
+import numpy as np
 
 from models.ddpm import DDPM_Model
 from models.ddim import DDIM_Model
@@ -146,10 +150,10 @@ def main():
     # 加载数据集和模型
     datasets = {'cifar': load_dataset('cifar'), 'celeba': load_dataset('celeba')}
     model_configs = [
-        ("DDPM", "cifar", "diffusion_model_cifar.pth"),
-        ("DDIM", "cifar", "ddim_model_cifar.pth"),
-        ("DDPM", "celeba", "diffusion_model_celeba.pth"),
-        ("DDIM", "celeba", "ddim_model_celeba.pth"),
+        ("DDPM", "cifar", "../../diffusion_model_cifar.pth"),
+        ("DDIM", "cifar", "../../ddim_model_cifar.pth"),
+        ("DDPM", "celeba", "../../diffusion_model_celeba.pth"),
+        ("DDIM", "celeba", "../../ddim_model_celeba.pth"),
     ]
     
     all_results = {}

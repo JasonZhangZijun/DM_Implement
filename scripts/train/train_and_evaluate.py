@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 """
-完整的DDPM训练和评估脚本
-支持：unconditional, inpainting, conditional generation等任务
+统一的训练和评估脚本
+
+功能：
+- 支持 CIFAR-10 和 CelebA 数据集
+- 训练 DDPM 和条件 DDPM 模型
+- 自动生成样本和评估 FID
+- 保存模型和实验结果
 """
 
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import argparse
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import torchvision
+import torchvision.transforms as transforms
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import numpy as np

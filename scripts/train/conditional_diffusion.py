@@ -8,9 +8,11 @@
 """
 from __future__ import annotations
 
-import argparse
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+import argparse
 import torch
 import torchvision
 import torchvision.transforms as T
@@ -61,9 +63,9 @@ def main():
     # 根据数据集自动选择模型文件名
     if not args.model_path:
         if args.dataset == "cifar":
-            args.model_path = "conditional_diffusion_cifar.pth"
+            args.model_path = "../../conditional_diffusion_cifar.pth"
         elif args.dataset == "celeba":
-            args.model_path = "conditional_diffusion_celeba.pth"
+            args.model_path = "../../conditional_diffusion_celeba.pth"
 
     # DataLoader
     if args.dataset == "cifar":

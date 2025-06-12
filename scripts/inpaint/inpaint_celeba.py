@@ -17,6 +17,8 @@ from __future__ import annotations
 import argparse
 import os
 from typing import Tuple
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import torch
 import torchvision.transforms as T
@@ -31,7 +33,7 @@ from inpaint_ddpm import InpaintDDPM
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="CelebA 批量 Inpainting")
     parser.add_argument("--data_root", type=str, default="./data/celeba", help="包含 img 子目录的根路径")
-    parser.add_argument("--model_path", type=str, default="diffusion_model_celeba.pth", help="预训练模型路径")
+    parser.add_argument("--model_path", type=str, default="../../diffusion_model_celeba.pth", help="预训练模型路径")
     parser.add_argument("--batch_size", type=int, default=32, help="推断批大小")
     parser.add_argument("--device", type=str, choices=["cpu", "cuda", "auto"], default="auto", help="运行设备")
     parser.add_argument("--mask_type", type=str, default="center", help="遮罩类型")

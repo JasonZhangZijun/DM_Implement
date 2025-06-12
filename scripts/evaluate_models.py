@@ -1,44 +1,46 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
-评测不同扩散模型的 FID 分数
-包括：
-1. DDPM CIFAR-10
-2. DDIM CIFAR-10
-3. Conditional DDPM CIFAR-10
-4. DDPM CelebA
-5. DDIM CelebA
-6. Conditional DDPM CelebA
+模型评估脚本
+评估预训练模型的生成质量
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import torch
+import torch.nn as nn
 import torchvision
-import torchvision.transforms as T
+import torchvision.transforms as transforms
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+from PIL import Image
+import argparse
+from pathlib import Path
 from torchvision.datasets import CIFAR10, ImageFolder
 from torch.utils.data import DataLoader
-import os
 from models.ddpm import DDPM_Model
 from models.ddim import DDIM_Model
 from models.conditional_ddpm import ConditionalDDPM_Model_CIFAR, ConditionalDDPM_Model_Celeba
 from utils.fid import calculate_fid_from_folders
-import matplotlib.pyplot as plt
-import numpy as np
 
 def setup_cifar10_dataloader(batch_size=100):
     """设置 CIFAR-10 数据加载器"""
-    transform = T.Compose([
-        T.ToTensor(),
-        T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     dataset = CIFAR10(root='./data', train=False, transform=transform, download=True)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=2)
 
 def setup_celeba_dataloader(batch_size=100):
     """设置 CelebA 数据加载器"""
-    transform = T.Compose([
-        T.CenterCrop(178),
-        T.Resize((64, 64)),
-        T.ToTensor(),
-        T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    transform = transforms.Compose([
+        transforms.CenterCrop(178),
+        transforms.Resize((64, 64)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     dataset = ImageFolder(root='./data/celeba', transform=transform)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=2)
@@ -118,31 +120,31 @@ def main():
     models = {
         "DDPM CIFAR-10": {
             "model": DDPM_Model(cifar_loader, device=device),
-            "path": "diffusion_model_cifar.pth",
+            "path": "../../diffusion_model_cifar.pth",
             "loader": cifar_loader,
             "dataset": "cifar"
         },
         "DDIM CIFAR-10": {
             "model": DDIM_Model(cifar_loader, device=device),
-            "path": "ddim_model_cifar.pth",
+            "path": "../../ddim_model_cifar.pth",
             "loader": cifar_loader,
             "dataset": "cifar"
         },
         "Conditional DDPM CIFAR-10": {
             "model": ConditionalDDPM_Model_CIFAR(cifar_loader, device=device),
-            "path": "conditional_diffusion_cifar.pth",
+            "path": "../../conditional_diffusion_cifar.pth",
             "loader": cifar_loader,
             "dataset": "cifar"
         },
         "DDPM CelebA": {
             "model": DDPM_Model(celeba_loader, device=device),
-            "path": "diffusion_model_celeba.pth",
+            "path": "../../diffusion_model_celeba.pth",
             "loader": celeba_loader,
             "dataset": "celeba"
         },
         "DDIM CelebA": {
             "model": DDIM_Model(celeba_loader, device=device),
-            "path": "ddim_model_celeba.pth",
+            "path": "../../ddim_model_celeba.pth",
             "loader": celeba_loader,
             "dataset": "celeba"
         },

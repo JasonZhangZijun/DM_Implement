@@ -1,15 +1,20 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 测试预训练的 DDPM CIFAR-10 模型
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import torch
 import torchvision
 import torchvision.transforms as T
-import os
+import matplotlib.pyplot as plt
 from models.ddpm import DDPM_Model
 
-def test_cifar_ddpm(model_path="diffusion_model_cifar.pth", num_samples=16, output_path="ddpm_cifar_test_samples.png"):
+def test_cifar_ddpm(model_path="../../diffusion_model_cifar.pth", num_samples=16, output_path="../../ddpm_cifar_test_samples.png"):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     

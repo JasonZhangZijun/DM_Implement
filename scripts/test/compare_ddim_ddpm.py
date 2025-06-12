@@ -5,6 +5,10 @@ DDIM vs DDPM 对比测试脚本
 比较两种模型在 CIFAR-10 和 CelebA 数据集上的生成效果
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import torch
 import torchvision
 import torchvision.transforms as T
@@ -12,7 +16,6 @@ from torchvision.datasets import CIFAR10, ImageFolder
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
-import os
 import time
 
 from models.ddpm import DDPM_Model
@@ -42,8 +45,8 @@ class ModelComparison:
         # 加载 DDPM 模型
         try:
             self.ddpm_cifar = DDPM_Model(dataloader)
-            if os.path.exists("diffusion_model_cifar.pth"):
-                self.ddpm_cifar.load_state_dict(torch.load("diffusion_model_cifar.pth", map_location=device))
+            if os.path.exists("../../diffusion_model_cifar.pth"):
+                self.ddpm_cifar.load_state_dict(torch.load("../../diffusion_model_cifar.pth", map_location=device))
                 print("✅ DDPM CIFAR-10 模型加载成功")
             else:
                 print("⚠️ 未找到 DDPM CIFAR-10 模型权重文件")
@@ -55,8 +58,8 @@ class ModelComparison:
         # 加载 DDIM 模型
         try:
             self.ddim_cifar = DDIM_Model(dataloader, device=device)
-            if os.path.exists("ddim_model_cifar.pth"):
-                self.ddim_cifar.load_state_dict(torch.load("ddim_model_cifar.pth", map_location=device))
+            if os.path.exists("../../ddim_model_cifar.pth"):
+                self.ddim_cifar.load_state_dict(torch.load("../../ddim_model_cifar.pth", map_location=device))
                 print("✅ DDIM CIFAR-10 模型加载成功")
             else:
                 print("⚠️ 未找到 DDIM CIFAR-10 模型权重文件")
@@ -90,9 +93,9 @@ class ModelComparison:
                 self.ddpm_celeba = DDPM_Model(dataloader)
             else:
                 self.ddpm_celeba = None
-            if os.path.exists("diffusion_model_celeba.pth"):
+            if os.path.exists("../../diffusion_model_celeba.pth"):
                 if self.ddpm_celeba:
-                    self.ddpm_celeba.load_state_dict(torch.load("diffusion_model_celeba.pth", map_location=device))
+                    self.ddpm_celeba.load_state_dict(torch.load("../../diffusion_model_celeba.pth", map_location=device))
                 print("✅ DDPM CelebA 模型权重文件找到")
             else:
                 print("⚠️ 未找到 DDPM CelebA 模型权重文件")
@@ -107,9 +110,9 @@ class ModelComparison:
                 self.ddim_celeba = DDIM_Model(dataloader, device=device)
             else:
                 self.ddim_celeba = None
-            if os.path.exists("ddim_model_celeba.pth"):
+            if os.path.exists("../../ddim_model_celeba.pth"):
                 if self.ddim_celeba:
-                    self.ddim_celeba.load_state_dict(torch.load("ddim_model_celeba.pth", map_location=device))
+                    self.ddim_celeba.load_state_dict(torch.load("../../ddim_model_celeba.pth", map_location=device))
                 print("✅ DDIM CelebA 模型权重文件找到")
             else:
                 print("⚠️ 未找到 DDIM CelebA 模型权重文件")
@@ -251,7 +254,7 @@ class ModelComparison:
         plt.subplots_adjust(top=0.93, left=0.15)
         
         # 保存图像
-        output_path = "ddim_vs_ddpm_comparison.png"
+        output_path = "../../ddim_vs_ddpm_comparison.png"
         plt.savefig(output_path, dpi=300, bbox_inches='tight')
         print(f"✅ 对比图像已保存为: {output_path}")
         
@@ -287,10 +290,10 @@ def main():
     
     # 检查模型文件
     model_files = [
-        "diffusion_model_cifar.pth",
-        "ddim_model_cifar.pth", 
-        "diffusion_model_celeba.pth",
-        "ddim_model_celeba.pth"
+        "../../diffusion_model_cifar.pth",
+        "../../ddim_model_cifar.pth", 
+        "../../diffusion_model_celeba.pth",
+        "../../ddim_model_celeba.pth"
     ]
     
     print("📁 检查模型文件...")

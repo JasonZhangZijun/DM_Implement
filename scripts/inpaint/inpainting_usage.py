@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-DDPM图像修复使用指南
-===================
-
-这个文件展示了如何使用DDPM进行图像修复(inpainting)的各种方法。
+完整的图像修复工具
+支持多种掩码类型和数据集
 
 作者: 助手
 日期: 2024
 """
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+import argparse
 import torch
 from inpaint_ddpm import InpaintDDPM
-import os
 
 # 创建虚拟数据加载器
 class DummyDataLoader:

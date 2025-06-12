@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 # diffusion model
 from models.unet import UNet
 import torch
@@ -32,15 +36,15 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == "__main__":
     # diffusion_model = DDPM_Model(dataloader)
     # diffusion_model.train_model(num_epochs=20)
-    # # 保存模型状态字典而不是整个模型
-    # torch.save(diffusion_model.state_dict(), "diffusion_model_celeba.pth")
-    # 创建新模型并加载状态字典
+    # # 保存模型
+    # torch.save(diffusion_model.state_dict(), "../../diffusion_model_celeba.pth")
+    
     diffusion_model = DDPM_Model(dataloader)
-    diffusion_model.load_state_dict(torch.load("diffusion_model_celeba.pth"))
+    diffusion_model.load_state_dict(torch.load("../../diffusion_model_celeba.pth"))
     
     # 生成一些样本并保存
     x_0 = diffusion_model.sample(8, "celeba")
-    torchvision.utils.save_image(x_0, "sample_celeba.png")
+    torchvision.utils.save_image(x_0, "../../sample_celeba.png")
     
     # 评估模型
     print("开始评估模型...")

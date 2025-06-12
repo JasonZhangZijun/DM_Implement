@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+"""
+简单的图像修复演示
+"""
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 import torch
 import argparse
 from inpaint_ddpm import InpaintDDPM

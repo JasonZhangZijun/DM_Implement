@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
-测试预训练的 DDIM CIFAR-10 模型
+DDIM CIFAR-10 模型测试脚本
+测试不同采样方法的效果和时间
 """
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import torch
 import torchvision
@@ -11,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from models.ddim import DDIM_Model
 
-def create_comparison_grid(model_path="ddim_model_cifar.pth", num_samples=4, output_path="ddim_step_comparison.png"):
+def create_comparison_grid(model_path="../../ddim_model_cifar.pth", num_samples=4, output_path="../../ddim_step_comparison.png"):
     """
     创建展示不同步数采样质量变化的对比图
     包含初始噪声和四个不同步数的采样结果
@@ -117,7 +122,7 @@ def create_comparison_grid(model_path="ddim_model_cifar.pth", num_samples=4, out
     print(f"✅ 对比图已保存: {output_path}")
     print("对比图展示了从初始噪声到不同步数采样的质量变化过程")
 
-def test_cifar_ddim(model_path="ddim_model_cifar.pth", num_samples=16, output_prefix="ddim_cifar_test"):
+def test_cifar_ddim(model_path="../../ddim_model_cifar.pth", num_samples=16, output_prefix="ddim_cifar_test"):
     """
     测试 DDIM CIFAR-10 模型，生成多种采样配置的样本
     
@@ -185,7 +190,7 @@ def test_cifar_ddim(model_path="ddim_model_cifar.pth", num_samples=16, output_pr
     for config in sampling_configs:
         print(f"  - {output_prefix}_{config['name']}.png ({config['desc']})")
 
-def compare_ddim_speeds(model_path="ddim_model_cifar.pth", num_samples=8):
+def compare_ddim_speeds(model_path="../../ddim_model_cifar.pth", num_samples=8):
     """
     对比不同 DDIM 步数的生成速度
     """

@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 """
-Test pre-trained DDIM model on CelebA dataset
+DDIM CelebA 模型测试脚本
+测试不同采样方法的效果和时间
 """
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import torch
 import torchvision
@@ -22,7 +27,7 @@ class DDIM_Model_CelebA(DDIM_Model):
         shape = (num_samples, 3, 64, 64)  # CelebA 64x64 image size
         return self.p_sample_loop(shape, ddim_steps, eta)
 
-def create_comparison_grid(model_path="ddim_model_celeba.pth", num_samples=4, output_path="ddim_celeba_comparison.png"):
+def create_comparison_grid(model_path="../../ddim_model_celeba.pth", num_samples=4, output_path="../../ddim_celeba_comparison.png"):
     """
     Create a comparison grid showing sampling quality evolution
     Including initial noise and samples with different steps
@@ -125,7 +130,7 @@ def create_comparison_grid(model_path="ddim_model_celeba.pth", num_samples=4, ou
     print(f"✅ Comparison grid saved: {output_path}")
     print("The grid shows the evolution from initial noise to final samples")
 
-def test_celeba_ddim(model_path="ddim_model_celeba.pth", num_samples=16, output_prefix="ddim_celeba_test"):
+def test_celeba_ddim(model_path="../../ddim_model_celeba.pth", num_samples=16, output_prefix="ddim_celeba_test"):
     """
     Test DDIM model on CelebA dataset with various sampling configurations
     
@@ -186,7 +191,7 @@ def test_celeba_ddim(model_path="ddim_model_celeba.pth", num_samples=16, output_
     for config in sampling_configs:
         print(f"  - {output_prefix}_{config['name']}.png ({config['desc']})")
 
-def compare_ddim_speeds(model_path="ddim_model_celeba.pth", num_samples=8):
+def compare_ddim_speeds(model_path="../../ddim_model_celeba.pth", num_samples=8):
     """
     Compare generation speed with different DDIM steps
     """

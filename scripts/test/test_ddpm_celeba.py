@@ -1,16 +1,17 @@
-# -*- coding: utf-8 -*-
-"""
-测试预训练的 DDPM CelebA 模型
-"""
+#!/usr/bin/env python3
+"""测试预训练的 DDPM CelebA 模型"""
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import torch
 import torchvision
 import torchvision.transforms as T
-import os
 import time
 from models.ddpm import DDPM_Model
 
-def test_ddpm_celeba(model_path="diffusion_model_celeba.pth", num_samples=16, output_path="ddpm_celeba_test_samples.png"):
+def test_ddpm_celeba(model_path="../../diffusion_model_celeba.pth", num_samples=16, output_path="../../ddpm_celeba_test_samples.png"):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     class FakeDataset(torch.utils.data.Dataset):
